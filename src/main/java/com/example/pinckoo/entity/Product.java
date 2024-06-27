@@ -7,5 +7,7 @@ public class Product {
     private Integer id;
     private String nameZh;
     private String nameEn;
+    private String image;
     private String images;
+    private String model;
 }

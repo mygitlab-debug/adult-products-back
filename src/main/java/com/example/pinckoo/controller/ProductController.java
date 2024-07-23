@@ -4,14 +4,12 @@ import com.example.pinckoo.config.ApiResponse;
 import com.example.pinckoo.entity.Product;
 import com.example.pinckoo.mapper.ProductMapper;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/product")
@@ -50,5 +48,16 @@ public class ProductController {
         res.put("data",responseData);
         res.put("total",total);
         return new ApiResponse<>(200, "Success", res);
+    }
+
+    @GetMapping("/detail")
+    public ApiResponse<Product> GetProductById(@RequestParam Integer id) {
+        Optional<Product> productOptional = productMapper.getProductById(id);
+        if (productOptional.isPresent()) {
+            Product Product = productOptional.get();
+            return new ApiResponse<>(200, "Success", Product);
+        } else {
+            return new ApiResponse<>(404, "Product Not Found", null);
+        }
     }
 }

@@ -10,4 +10,10 @@ public class Product {
     private String image;
     private String images;
     private String model;
+    private String weight;
+    private String size;
+    private String material;
+    private String materialEn;
+    private String function;
+    private String functionEn;
 }

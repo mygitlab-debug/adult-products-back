@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductMapper {
 
@@ -25,5 +26,8 @@ public interface ProductMapper {
 
     @Select("select count(*) from product where type = #{type}")
     Integer getTotalByType(@Param("type") String type);
+
+    @Select("SELECT * FROM product where id = #{id}")
+    Optional<Product> getProductById(@Param("id")Integer id);
 }
 

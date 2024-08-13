@@ -27,6 +27,8 @@ public class ProductController {
     @GetMapping("/page")
     public ApiResponse<Map<String, Object>> GetProductPage(
             @RequestParam(required = false) String type,
+            @RequestParam(required = false) Boolean isNew,  // 新增的查询参数
+            @RequestParam(required = false) Boolean isHot,  // 新增的查询参数
             @RequestParam Integer currentPage,
             @RequestParam Integer pageSize) {
 
@@ -34,13 +36,10 @@ public class ProductController {
 
         List<Product> responseData;
         Integer total;
-        if (type != null && !type.isEmpty()) {
-            responseData = productMapper.getListByType(type,currentPage,pageSize); // 示例数据
-            total = productMapper.getTotalByType(type);
-        } else {
-            responseData = productMapper.getList(currentPage,pageSize); // 示例数据
-            total = productMapper.getTotal();
-        }
+        Integer neww = (isNew != null) ? (isNew ? 1 : 0) : null;
+        Integer hott = (isHot != null) ? (isHot ? 1 : 0) : null;
+        responseData = productMapper.getList(type,neww, hott,currentPage,pageSize); // 示例数据
+        total = productMapper.getTotal(type,neww, hott);
 
 
         //封装数据

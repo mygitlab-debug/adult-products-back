@@ -12,20 +12,32 @@ public interface ProductMapper {
     @Select("select * from product")
     List<Product> findAll();
 
-    @Select("select * from product limit #{currentPage},#{pageSize}")
-    List<Product> getList(@Param("currentPage") Integer currentPage,@Param("pageSize") Integer pageSize);
+    @Select("<script>" +
+            "SELECT * FROM product " +
+            "<where>" +
+            "<if test='type != null and type != \"\"'> AND type = #{type} </if>" +
+            "<if test='isNew != null'> AND isNew = #{isNew} </if>" +
+            "<if test='isHot != null'> AND isHot = #{isHot} </if>" +
+            "</where>" +
+            "LIMIT #{currentPage}, #{pageSize}" +
+            "</script>")
+    List<Product> getList(@Param("type") String type,
+                          @Param("isNew") Integer isNew,
+                          @Param("isHot") Integer isHot,
+                          @Param("currentPage") Integer currentPage,
+                          @Param("pageSize") Integer pageSize);
 
-    @Select("select count(*) from product")
-    Integer getTotal();
-
-    @Select("select * from product where type = #{type}")
-    List<Product> findByType(@Param("type") String type);
-
-    @Select("select * from product where type = #{type} limit #{currentPage}, #{pageSize}")
-    List<Product> getListByType(@Param("type") String type, @Param("currentPage") Integer currentPage, @Param("pageSize") Integer pageSize);
-
-    @Select("select count(*) from product where type = #{type}")
-    Integer getTotalByType(@Param("type") String type);
+    @Select("<script>" +
+            "SELECT COUNT(*) FROM product " +
+            "<where>" +
+            "<if test='type != null and type != \"\"'> AND type = #{type} </if>" +
+            "<if test='isNew != null'> AND isNew = #{isNew} </if>" +
+            "<if test='isHot != null'> AND isHot = #{isHot} </if>" +
+            "</where>" +
+            "</script>")
+    Integer getTotal(@Param("type") String type,
+                     @Param("isNew") Integer isNew,
+                     @Param("isHot") Integer isHot);
 
     @Select("SELECT * FROM product where id = #{id}")
     Optional<Product> getProductById(@Param("id")Integer id);

@@ -10,6 +10,9 @@ public class Product {
     private String image;
     private String images;
     private String model;
+    private String type;
+    private Boolean isNew;
+    private Boolean isHot;
     private String weight;
     private String size;
     private String material;
